@@ -1,0 +1,50 @@
+input: k_clusters, the number of clusters
+data = x,y points to be clustered
+
+
+main(data, k_clusters):
+	
+	k = arr of size k_clusters
+	for i in range(k)
+		k[i] = randomly selected point
+
+	cluster_centers = arr of k_clusters pairs with x, y vals
+
+	for i < max_iterations, i++
+		cluster = find_centroids(data, k)
+		
+		//group data points by cluster
+		for cluster_ind in range(cluster):
+			cluster_centers[cluster[cluster_ind]]->left += data[cluster_ind].x
+			cluster_centers[cluster[cluster_ind]]->right += data[cluster_ind].y
+		
+		temp_cl = k.copy()
+		for cl in range(cluster_centers):
+			k[cl] = cluster_centers[cl] / size(cluster_centers[cl])
+		
+		//convergence check
+		bool change = False
+		for v in temp_cl:
+			if k[v] != temp_cl:
+				change = True
+				break
+		
+		if not change:
+			break
+		
+	return k
+	
+//GPU parallel section
+find_nearest_centriod(data, k):
+	cluster = arr of len data	//the corresponding entry will be the cluster for the x,y pair
+	for i entry in data:
+		cluster[i] = min(sq_euclidian_distance(i, k))
+	return cluster
+
+sq_euclidian_distance(val, k):
+	min = inf
+	for iter in k:
+		dist = x^2 + y^2
+		if dist < min:
+			min = dist
+	return min
